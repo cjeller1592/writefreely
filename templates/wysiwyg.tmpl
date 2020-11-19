@@ -21,6 +21,7 @@
 		<!-- </div> -->
 		<input type="text" id="title" name="title" placeholder="Title..." {{if .Post.Title}}value="{{.Post.Title}}"{{end}} autofocus />
 		<div id="editor" style="margin-bottom: 0"></div>
+		<script src="/js/prose.bundle.js"></script>
 
 		<div style="display: none"><textarea id="content"{{if .Post.Content }} value={{.Post.Content}}>{{.Post.Content}}{{else}}>{{end}}</textarea></div>
 		
@@ -95,7 +96,9 @@
 		}
 		var $title = H.getEl('title');
 		var $writer = H.getQEl('div.ProseMirror');
-		var $content = H.getEl('content');
+        var $content = {el:{get value(){
+            return window.editorInstance.content;
+        }}};
 		var $btnPublish = H.getEl('publish');
 		var $wc = H.getEl("wc");
 		var updateWordCount = function() {
@@ -127,8 +130,8 @@
 		// ProseMirror editor
 		window.draftKey = draftDoc;
 
-		// H.loadClassic($title, $writer, draftDoc, true);
-		updateWordCount();
+		 // H.loadClassic($title, $writer, draftDoc, true);
+        // updateWordCount();
 		
 		var typingTimer;
 		var doneTypingInterval = 200;
@@ -369,8 +372,8 @@
 
 		var doneTyping = function() {
 			if (draftDoc == 'lastDoc' || $content.el.value != origDoc) {
-				H.saveClassic($title, $content, draftDoc);
-				updateWordCount();
+				// H.saveClassic($title, $content, draftDoc);
+				// updateWordCount();
 			}
 		};
 		window.addEventListener('beforeunload', function(e) {
@@ -394,7 +397,6 @@
 		  // whatevs
 		}
 		</script>
-		<script src="/js/prose.bundle.js"></script>
 		<link href="/css/icons.css" rel="stylesheet">
 	</body>
 </html>{{end}}
